@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Home</title>
+    <link rel="stylesheet" href="../css/company_home.css">
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="logo"><img src="logo.png" alt="Company Logo" width="30"></div>
+        <div class="company-name">Welcome, [Company Name]!</div>
+        <div class="links">
+            <a href="profile.html">Profile</a>
+            <a href="messages.html">Messages</a>
+        </div>
+    </div>
+
+    <h2>Manage Flights</h2>
+    <button onclick="toggleAddFlightForm()">Add Flight</button>
+
+    <!-- Add Flight Form -->
+    <div id="addFlightForm">
+        <form id="flightForm">
+            <input type="text" id="flightName" placeholder="Flight Name" required>
+            <textarea id="itinerary" placeholder="Itinerary" required></textarea>
+            <input type="number" id="passengers" placeholder="Number of Passengers" required>
+            <input type="number" id="fees" placeholder="Flight Fees" required>
+            <button type="submit">Add Flight</button>
+        </form>
+    </div>
+
+    <h2>Flights List</h2>
+    <ul id="flightsList">
+        <!-- Flights will be loaded here -->
+    </ul>
+
+    <script src="company_home.js" defer></script>
+</body>
+</html>

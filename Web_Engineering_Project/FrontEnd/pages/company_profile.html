@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile</title>
+    <link rel="stylesheet" href="styles/company_profile.css">
+</head>
+<body>
+    <h1>Company Profile</h1>
+    <form id="profileForm">
+        <input type="file" id="logo" accept="image/*" />
+        <img id="logoPreview" src="" alt="Company Logo" />
+        <input type="text" id="name" placeholder="Company Name" disabled />
+        <textarea id="bio" placeholder="Bio"></textarea>
+        <textarea id="address" placeholder="Address"></textarea>
+        <button type="submit">Update Profile</button>
+    </form>
+    <h2>Flights List</h2>
+    <ul id="flightsList"></ul>
+    <script src="scripts/company_profile.js" defer></script>
+</body>
+</html>

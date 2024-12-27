@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
+
+body {
+    font-family: 'Fjalla One', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f4f8; /* Light gray background */
+    color: #2A293E; /* Dark text color */
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0F52BA; /* Sapphire Blue */
+    color: white;
+    padding: 15px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.nav-bar .logo img {
+    width: 50px;
+}
+
+.nav-bar .company-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-bar .links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.nav-bar .links a:hover {
+    text-decoration: underline;
+}
+
+h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-top: 80px; /* Adjust for fixed navbar */
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    background: #0F52BA; /* Sapphire Blue */
+    color: white;
+    padding: 12px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: rgba(15, 82, 186, 0.8);
+}
+
+#addFlightForm {
+    display: none;
+    margin-top: 20px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.85); /* Light transparent background */
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#addFlightForm input,
+#addFlightForm textarea {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+#addFlightForm button {
+    background: #ffa580; /* Light orange */
+    color: white;
+    padding: 12px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#addFlightForm button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#flightsList {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#flightsList li {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+}
+
+#flightsList li:hover {
+    background: #f8f8f8;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-bar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-bar .company-name {
+        margin-bottom: 10px;
+    }
+
+    .nav-bar .links {
+        margin-top: 10px;
+    }
+
+    .nav-bar .links a {
+        margin-left: 0;
+        margin-right: 20px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    button {
+        width: 80%;
+        font-size: 14px;
+    }
+
+    #addFlightForm {
+        width: 80%;
+        padding: 20px;
+    }
+
+    #flightsList li {
+        font-size: 14px;
+    }
+}

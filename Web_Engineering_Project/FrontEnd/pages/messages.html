@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <link rel="stylesheet" href="../css/messages.css">
+</head>
+<body>
+    <h1>Messages</h1>
+    <ul id="messagesList">
+        <!-- Messages will appear here -->
+    </ul>
+
+    <script>
+        // Fetch messages for the logged-in user
+        fetch('http://localhost/your_project_folder/backend/messages.php', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messagesList = document.getElementById('messagesList');
+            data.messages.forEach(message => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${message.sender_name}: ${message.content}`;
+                messagesList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="../css/Registration.css">
+</head>
+<body>
+    <!-- Form that submits to register.php -->
+    <form method="POST" action="../php/controllers/user/register.php">
+        <h2>Create an Account</h2>
+        <br>
+        
+        <!-- Email Field -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        
+        <!-- Name Field -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        
+        <!-- Password Field -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        
+        <!-- Telephone Field -->
+        <label for="telephone">Telephone:</label>
+        <input type="tel" id="telephone" name="telephone" required>
+        <br>
+        
+        <!-- User Type Selection -->
+        <label for="user_type">Type:</label>
+        <select id="user_type" name="user_type" required>
+            <option value="">--Select Type--</option>
+            <option value="Company">Company</option>
+            <option value="Passenger">Passenger</option>
+        </select>
+        <br><br>
+        
+        <!-- Submit Button -->
+        <input type="submit" value="Register">
+        <br><br>
+        
+        <!-- Link to Login Page -->
+        <p style="font-size:15px; text-align: center;">
+            Already have an account? <a href="Login.html">Login</a>
+        </p>
+    </form>
+</body>
+</html>

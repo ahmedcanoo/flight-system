@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Home</title>
+    <link rel="stylesheet" href="../css/passenger_home.css">
+</head>
+<body>
+    <h1>Welcome, Passenger!</h1>
+
+    <h2>Available Flights</h2>
+    <ul id="availableFlights">
+        <!-- List of available flights will appear here -->
+    </ul>
+
+    <script>
+        // Fetch available flights and display them
+        function fetchAvailableFlights() {
+            fetch('http://localhost/your_project_folder/backend/flights.php', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const availableFlights = document.getElementById('availableFlights');
+                availableFlights.innerHTML = '';  // Clear the list before adding new items
+                data.forEach(flight => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${flight.name} - ${flight.itinerary}`;
+                    const bookButton = document.createElement('button');
+                    bookButton.textContent = 'Book Flight';
+                    bookButton.onclick = () => bookFlight(flight.id);
+                    listItem.appendChild(bookButton);
+                    availableFlights.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching available flights:', error));
+        }
+
+        // Book a flight
+        function bookFlight(flightId) {
+            fetch('http://localhost/your_project_folder/backend/passenger.php', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    action: 'bookFlight',
+                    flightId: flightId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => console.error('Error booking flight:', error));
+        }
+
+        // Load available flights when the page loads
+        window.onload = fetchAvailableFlights;
+    </script>
+</body>
+</html>

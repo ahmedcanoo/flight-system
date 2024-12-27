@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Flights</title>
+    <link rel="stylesheet" href="../css/search.css">
+</head>
+<body>
+    <h1>Search Flights</h1>
+    <input type="text" id="searchQuery" placeholder="Enter flight name or itinerary">
+    <button onclick="searchFlights()">Search</button>
+
+    <ul id="searchResults">
+        <!-- Search results will appear here -->
+    </ul>
+
+    <script>
+        // Search for flights
+        function searchFlights() {
+            const query = document.getElementById('searchQuery').value;
+            fetch('http://localhost/your_project_folder/backend/search.php?query=' + query, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const searchResults = document.getElementById('searchResults');
+                searchResults.innerHTML = '';  // Clear previous results
+                data.forEach(flight => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${flight.name} - ${flight.itinerary}`;
+                    searchResults.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error searching flights:', error));
+        }
+    </script>
+</body>
+</html>

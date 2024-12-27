@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Profile</title>
+    <link rel="stylesheet" href="../css/passenger_profile.css">
+</head>
+<body>
+    <h1>Passenger Profile</h1>
+    <form id="profileForm">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button type="submit">Update Profile</button>
+    </form>
+
+    <script>
+        // Fetch passenger profile details
+        fetch('http://localhost/your_project_folder/backend/passenger.php', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('name').value = data.name;
+            document.getElementById('email').value = data.email;
+        });
+
+        // Handle profile form submission
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            fetch('http://localhost/your_project_folder/backend/passenger.php', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    action: 'updateProfile',
+                    name: name,
+                    email: email
+                })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error('Error updating profile:', error));
+        });
+    </script>
+</body>
+</html>
