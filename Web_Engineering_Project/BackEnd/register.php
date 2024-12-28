@@ -15,13 +15,13 @@ function sanitize_input($data) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email     = sanitize_input($_POST['email']);
-    $name      = sanitize_input($_POST['name']);
+    $username  = sanitize_input($_POST['username']);
     $password  = $_POST['password']; 
     $phone     = sanitize_input($_POST['telephone']);
     $user_type = sanitize_input($_POST['user_type']);
 
     // Basic validation
-    if (empty($email) || empty($name) || empty($password) || empty($phone) || empty($user_type)) {
+    if (empty($email) || empty($username) || empty($password) || empty($phone) || empty($user_type)) {
         die("Please fill in all required fields.");
     }
 
@@ -51,58 +51,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt->close();
     } else {
-        die("Database error: Unable to prepare statement (checking email).");
+        die("Database error: Unable to prepare statement (checking email)." . $conn->error);
     }
 
-    // 1) Insert into `users` table
-    $insert_user_query = "
-        INSERT INTO users (name, email, password, phone, type)
-        VALUES (?, ?, ?, ?, ?)
-    ";
+    // Check if username already exists
+    $check_username_query = "SELECT username FROM users WHERE username = ?";
+    if ($stmt = $conn->prepare($check_username_query)) {
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->store_result();
+        if ($stmt->num_rows > 0) {
+            $stmt->close();
+            die("Username already exists.");
+        }
+        $stmt->close();
+    } else {
+        die("Database error: Unable to prepare statement (checking username)." . $conn->error);
+    }
+
+    // Insert into `users` table
+    $insert_user_query = "INSERT INTO users (username, email, password, phone, type) VALUES (?, ?, ?, ?, ?)";
     if ($stmt = $conn->prepare($insert_user_query)) {
-        $stmt->bind_param("sssss", $name, $email, $hashed_password, $phone, $user_type);
+        $stmt->bind_param("sssss", $username, $email, $hashed_password, $phone, $user_type);
         if ($stmt->execute()) {
-            $user_id = $stmt->insert_id;  // newly created user primary key
+            $user_id = $stmt->insert_id;
+            $_SESSION['user_id'] = $user_id; // Store user ID in session
+            $_SESSION['user_type'] = $user_type; // Store user type in session
             $stmt->close();
 
-            // 2) Insert into the correct info table
+            // Insert into the correct info table
             if ($user_type === 'Company') {
-                $insert_company_query = "
-                    INSERT INTO company_info (user_id, bio, address, location, username, logo, account_balance)
-                    VALUES (?, '', '', '', '', NULL, 0.00)
-                ";
-                $stmt2 = $conn->prepare($insert_company_query);
-                $stmt2->bind_param("i", $user_id);
-                $stmt2->execute();
-                $stmt2->close();
+                $insert_company_query = "INSERT INTO company_info (user_id, name, bio, address, location, logo, flights, account_balance) 
+                                         VALUES (?, '', '', '', '', NULL, '[]', 0.00)";
+                if ($stmt2 = $conn->prepare($insert_company_query)) {
+                    $stmt2->bind_param("i", $user_id); // Bind user_id to the prepared statement
+                    $stmt2->execute();
+                    $stmt2->close();
+            
+                    // Redirect to company registration page
+                    header("Location: ../FrontEnd/pages/company_register.html");
+                    exit();
+                } else {
+                    die("Database error: Unable to prepare statement (inserting company info)." . $conn->error);
+                }
+            }else {
+                $insert_passenger_query = "INSERT INTO passenger_info (user_id, photo, passport_image, flights, account_balance) VALUES (?, NULL, NULL, '[]', 0.00)";
+                if ($stmt3 = $conn->prepare($insert_passenger_query)) {
+                    $stmt3->bind_param("i", $user_id);
+                    $stmt3->execute();
+                    $stmt3->close();
 
-                // Redirect
-                $_SESSION['user_id']   = $user_id;
-                $_SESSION['user_type'] = $user_type;
-                header("Location: ../FrontEnd/pages/company_register.html");
-                exit();
-            } else {
-                $insert_passenger_query = "
-                    INSERT INTO passenger_info (user_id, photo, passport_image, flights, account_balance)
-                    VALUES (?, NULL, NULL, '[]', 0.00)
-                ";
-                $stmt3 = $conn->prepare($insert_passenger_query);
-                $stmt3->bind_param("i", $user_id);
-                $stmt3->execute();
-                $stmt3->close();
-
-                // Redirect
-                $_SESSION['user_id']   = $user_id;
-                $_SESSION['user_type'] = $user_type;
-                header("Location: ../FrontEnd/pages/passenger_register.html");
-                exit();
+                    // Redirect to passenger registration page
+                    $_SESSION['user_id'] = $user_id;
+                    header("Location: ../FrontEnd/pages/passenger_register.html?user_id=" . $user_id);
+                    exit();
+                } else {
+                    die("Database error: Unable to prepare statement (inserting passenger info)." . $conn->error);
+                }
             }
         } else {
             $stmt->close();
-            die("Registration failed. Please try again.");
+            die("Registration failed. Please try again." . $conn->error);
         }
     } else {
-        die("Database error: Unable to prepare statement (inserting user).");
+        die("Database error: Unable to prepare statement (inserting user)." . $conn->error);
     }
 } else {
     // If the form was not submitted via POST, redirect
