@@ -3,53 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
-    <!-- Link to your CSS file -->
+    <title>Register</title>
     <link rel="stylesheet" href="../css/register.css">
 </head>
 <body>
-    <!-- Form that submits to register.php -->
     <form method="POST" action="../../BackEnd/register.php">
-        <h2>Create an Account</h2>
-        <br>
-        
-        <!-- Email Field -->
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        
-        <!-- Name Field -->
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        
-        <!-- Password Field -->
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        
-        <!-- Telephone Field -->
-        <label for="telephone">Telephone:</label>
-        <input type="tel" id="telephone" name="telephone" required>
-        <br>
-        
-        <!-- User Type Selection -->
-        <label for="user_type">Type:</label>
-        <select id="user_type" name="user_type" required>
-            <option value="">--Select Type--</option>
-            <option value="Company">Company</option>
-            <option value="Passenger">Passenger</option>
-        </select>
-        <br><br>
-        
-        <!-- Submit Button -->
-        <input type="submit" value="Register">
-        <br><br>
-        
-        <!-- Link to Login Page -->
-        <p style="font-size:15px; text-align: center;">
-            Already have an account? <a href="Login.html">Login</a>
-        </p>
-    </form>
+    <div class="form-container">
+        <h1>Welcome to our Flight Booking System</h1>
+        <p>Register below</p>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Full Name</label>
+                <input type="text" id="username" name="username" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+                <label for="telephone">Phone Number</label>
+                <input type="tel" id="telephone" name="telephone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="user_type">Type</label>
+                <select id="user_type" name="user_type" required>
+                    <option value="">Select Type</option>
+                    <option value="Passenger">passenger</option>
+                    <option value="Company">company</option>
+                </select>
+            </div>
+            <button type="submit">Register</button>
+            <div class="form-data">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
