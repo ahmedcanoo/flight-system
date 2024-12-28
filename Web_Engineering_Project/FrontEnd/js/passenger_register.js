@@ -1,13 +1,25 @@
-document.getElementById('passengerForm').addEventListener('submit', (e) => {
+document.getElementById('passengerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const passportNumber = document.getElementById('passportNumber').value;
-    const passportImage = document.getElementById('passportImage').files[0];
+    const form = e.target;
+    const formData = new FormData(form);
 
-    console.log("Submitting passenger details:", { passportNumber, passportImage });
+    try {
+        // Send form data to the backend
+        const response = await fetch("../../BackEnd/passenger_register.php", {
+            method: "POST",
+            body: formData,
+        });
 
-    // Add server-side submission logic here
-
-    alert('Passenger Registration Complete!');
-    window.location.href = 'passenger_home.html'; // Redirect to the passenger home page
+        const result = await response.json();
+        if (result.status === "success") {
+            alert(result.message);
+            window.location.href = "passenger_home.html"; // Redirect to the passenger home page
+        } else {
+            alert(result.message); // Display error message from server
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred during registration. Please try again.");
+    }
 });
