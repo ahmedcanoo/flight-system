@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
+
+body {
+    background: url("real-plane.png") center center no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.35); /* Semi-transparent white */
+    padding: 50px 100px;
+    border: 2px solid #0F52BA; /* Sapphire Blue frame */
+    box-shadow: 15px 15px 1px rgba(255, 255, 255, 0.35), 
+                15px 15px 1px 2px rgba(255, 255, 255, 0.35); /* Matches container color */
+    min-width: 300px;
+    text-align: center;
+    border-radius: 15px; /* Rounded corners */
+}
+
+h1 {
+    font-size: 24px;
+    color: #0F52BA; /* Sapphire Blue */
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 12pt;
+    color: #4A4A4A;
+    margin-bottom: 30px;
+}
+
+.form-group, div {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    color: #2A293E;
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    line-height: 28px;
+    border: none;
+    border-bottom: 5px solid rgba(137, 207, 240, 0.8); /* Slightly transparent Baby Blue */
+    background: #f8f4e5;
+    padding-left: 5px;
+    outline: none;
+    color: #2A293E;
+    resize: none; /* Prevent textarea resizing */
+}
+
+input:focus, select:focus, textarea:focus {
+    border-bottom: 5px solid rgba(135, 206, 235, 0.8); /* Slightly transparent Sky Blue */
+}
+
+button {
+    display: block;
+    margin: 0 auto;
+    line-height: 28px;
+    padding: 0 20px;
+    background: #0F52BA; /* Sapphire Blue */
+    color: white;
+    letter-spacing: 2px;
+    transition: 0.2s all ease-in-out;
+    outline: none;
+    border: 1px solid rgba(135, 206, 235, 0.8); /* Transparent Sky Blue border */
+    box-shadow: 3px 3px 1px 1px rgba(137, 207, 240, 0.5), 
+                3px 3px 1px 2px rgba(0, 0, 0, 0.15); /* Softer Baby Blue shadow */
+}
+
+button:hover {
+    background: rgba(42, 41, 62, 0.8); /* Semi-transparent Dark Blue for hover effect */
+    color: white;
+    border: 1px solid rgba(15, 82, 186, 0.8); /* Sapphire Blue */
+}
+
+input[type="file"] {
+    border: none;
+    background: #f8f4e5;
+    padding-left: 0; /* Remove padding for file input */
+    color: #2A293E;
+}
+
+input[type="file"]:focus {
+    border: none; /* No bottom border for file input */
+    outline: 1px solid rgba(135, 206, 235, 0.8); /* Add subtle outline instead */
+}
