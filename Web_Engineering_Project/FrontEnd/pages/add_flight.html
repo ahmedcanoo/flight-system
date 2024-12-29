@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Flight</title>
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Flight</h2>
+        <form id="addFlightForm">
+            <div class="form-group">
+                <label for="flightName">Name:</label>
+                <input type="text" id="flightName" placeholder="Enter Flight Name" required>
+            </div>
+            <div class="form-group">
+                <label for="flightId">ID:</label>
+                <input type="text" id="flightId" placeholder="Enter Flight ID" required>
+            </div>
+            <div class="form-group">
+                <label for="itinerary">Itinerary:</label>
+                <textarea id="itinerary" placeholder="Enter Itinerary" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="fees">Fees:</label>
+                <input type="number" id="fees" placeholder="Enter Flight Fees" required>
+            </div>
+            <div class="form-group">
+                <label for="passengers"># Passengers:</label>
+                <input type="number" id="passengers" placeholder="Enter Number of Passengers" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="datetime-local" id="time" required>
+            </div>
+            <button type="submit">Add Flight</button>
+        </form>
+    </div>
+</body>
+</html>
