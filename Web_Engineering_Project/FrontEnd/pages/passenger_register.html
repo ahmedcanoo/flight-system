@@ -3,6 +3,7 @@
 <head>
     <title>Passenger Registration</title>
     <link rel="stylesheet" href="../css/passenger_register.css">
+    <script src="../js/passenger_register.js" defer></script>
 </head>
 <body>
     <div id="header"></div>
@@ -19,21 +20,21 @@
             }
         });
     </script>
-
+<div class="form-container">
     <h1>Passenger Additional Information</h1>
     <form id="passengerForm" method="POST" enctype="multipart/form-data">
         <input type="hidden" id="user_id" name="user_id">
-        <div>
+        <div class="form-group">
             <label for="photo">Photo:</label>
             <input type="file" id="photo" name="photo" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="passportImage">Passport Image:</label>
             <input type="file" id="passportImage" name="passport_image" required>
         </div>
         <button type="submit">Submit</button>
     </form>
-
+</div>
     <script>
         document.getElementById("passengerForm").addEventListener("submit", async (e) => {
             e.preventDefault();
