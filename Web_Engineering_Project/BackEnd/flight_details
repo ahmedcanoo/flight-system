@@ -5,14 +5,12 @@ error_reporting(E_ALL);
 
 include_once 'database.php'; // Include database connection
 
-// Check if the flight ID is provided
 if (!isset($_GET['id'])) {
     echo "<h1>Error: Flight ID not provided.</h1>";
-    echo "<p>Debug: The URL should include '?id=1' where 1 is the flight ID.</p>";
     exit();
 }
 
-$flight_id = intval($_GET['id']); // Get the flight ID from the query parameter
+$flight_id = intval($_GET['id']); 
 
 // Fetch flight details
 $flightQuery = "SELECT id, name, itinerary, fees, num_passengers_registered, num_passengers_pending, start_time, end_time FROM flights WHERE id = ?";
@@ -29,19 +27,38 @@ if ($flightResult->num_rows === 0) {
 $flight = $flightResult->fetch_assoc();
 
 // Fetch registered passengers
-$registeredQuery = "SELECT users.id, users.username, users.email FROM passenger_info 
-                    INNER JOIN users ON passenger_info.user_id = users.id 
-                    WHERE JSON_CONTAINS(flights, ?);";
-$jsonFlightId = json_encode($flight_id);
-$stmt = $conn->prepare($registeredQuery);
+$registeredPassengers = [];
+$passengerQuery = "SELECT users.id, users.username, users.email 
+                   FROM passenger_info 
+                   INNER JOIN users ON passenger_info.user_id = users.id
+                   WHERE users.type = 'Passenger' 
+                   AND JSON_CONTAINS(passenger_info.flights, ?, '$')";
+$jsonFlightId = json_encode(["id" => $flight_id]);
+$stmt = $conn->prepare($passengerQuery);
 $stmt->bind_param("s", $jsonFlightId);
 $stmt->execute();
-$registeredResult = $stmt->get_result();
-$registeredPassengers = $registeredResult->fetch_all(MYSQLI_ASSOC);
+$result = $stmt->get_result();
+$registeredPassengers = $result->fetch_all(MYSQLI_ASSOC);
+
+while ($row = $result->fetch_assoc()) {
+    $flights = json_decode($row['flights'], true);
+    if (is_array($flights)) {
+        foreach ($flights as $flight) {
+            if (isset($flight['id']) && $flight['id'] == $flight_id) {
+                $registeredPassengers[] = $row;
+                break; // Move to the next passenger once a match is found
+            }
+        }
+    }
+}
 
 // Fetch pending passengers
-$pendingQuery = "SELECT id, username, email FROM users WHERE id IN (
-                    SELECT user_id FROM passenger_info WHERE NOT JSON_CONTAINS(flights, ?));";
+$pendingPassengers = [];
+$pendingQuery = "SELECT users.id, users.username, users.email 
+                 FROM users 
+                 INNER JOIN passenger_info ON users.id = passenger_info.user_id
+                 WHERE users.type = 'Passenger' AND NOT JSON_CONTAINS(passenger_info.flights, ?)";
+$jsonFlightId = json_encode(["id" => $flight_id]);
 $stmt = $conn->prepare($pendingQuery);
 $stmt->bind_param("s", $jsonFlightId);
 $stmt->execute();
@@ -63,21 +80,21 @@ $stmt->close();
     <h1>Flight Details</h1>
 
     <div class="flight-details">
-        <p><strong>ID:</strong> <?php echo $flight['id']; ?></p>
-        <p><strong>Name:</strong> <?php echo $flight['name']; ?></p>
-        <p><strong>Itinerary:</strong> <?php echo $flight['itinerary']; ?></p>
-        <p><strong>Fees:</strong> $<?php echo $flight['fees']; ?></p>
-        <p><strong>Registered Passengers:</strong> <?php echo $flight['num_passengers_registered']; ?></p>
-        <p><strong>Pending Passengers:</strong> <?php echo $flight['num_passengers_pending']; ?></p>
-        <p><strong>Start Time:</strong> <?php echo $flight['start_time']; ?></p>
-        <p><strong>End Time:</strong> <?php echo $flight['end_time']; ?></p>
+        <p><strong>ID:</strong> <?php echo htmlspecialchars($flight['id'] ?? 'N/A'); ?></p>
+        <p><strong>Name:</strong> <?php echo htmlspecialchars($flight['name'] ?? 'N/A'); ?></p>
+        <p><strong>Itinerary:</strong> <?php echo htmlspecialchars($flight['itinerary'] ?? 'N/A'); ?></p>
+        <p><strong>Fees:</strong> $<?php echo htmlspecialchars($flight['fees'] ?? '0'); ?></p>
+        <p><strong>Registered Passengers:</strong> <?php echo htmlspecialchars($flight['num_passengers_registered'] ?? '0'); ?></p>
+        <p><strong>Pending Passengers:</strong> <?php echo htmlspecialchars($flight['num_passengers_pending'] ?? '0'); ?></p>
+        <p><strong>Start Time:</strong> <?php echo htmlspecialchars($flight['start_time'] ?? 'N/A'); ?></p>
+        <p><strong>End Time:</strong> <?php echo htmlspecialchars($flight['end_time'] ?? 'N/A'); ?></p>
     </div>
 
     <h2>Registered Passengers</h2>
     <ul>
         <?php if (!empty($registeredPassengers)) {
             foreach ($registeredPassengers as $passenger) {
-                echo "<li>{$passenger['username']} ({$passenger['email']})</li>";
+                echo "<li>" . htmlspecialchars($passenger['username'] ?? 'Unknown') . " (" . htmlspecialchars($passenger['email'] ?? 'Unknown') . ")</li>";
             }
         } else {
             echo "<li>No registered passengers.</li>";
@@ -88,7 +105,7 @@ $stmt->close();
     <ul>
         <?php if (!empty($pendingPassengers)) {
             foreach ($pendingPassengers as $passenger) {
-                echo "<li>{$passenger['username']} ({$passenger['email']})</li>";
+                echo "<li>" . htmlspecialchars($passenger['username'] ?? 'Unknown') . " (" . htmlspecialchars($passenger['email'] ?? 'Unknown') . ")</li>";
             }
         } else {
             echo "<li>No pending passengers.</li>";
