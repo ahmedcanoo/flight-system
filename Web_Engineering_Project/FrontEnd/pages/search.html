@@ -8,32 +8,50 @@
 </head>
 <body>
     <h1>Search Flights</h1>
-    <input type="text" id="searchQuery" placeholder="Enter flight name or itinerary">
-    <button onclick="searchFlights()">Search</button>
+    <form id="searchForm">
+        <div class="form-group">
+            <input type="text" id="fromLocation" placeholder="From (City/Airport)" required>
+        </div>
+        <div class="form-group">
+            <input type="text" id="toLocation" placeholder="To (City/Airport)" required>
+        </div>
+        <button type="submit">Search</button>
+    </form>
 
     <ul id="searchResults">
-        <!-- Search results will appear here -->
+        <!-- List of search results will be dynamically populated here -->
     </ul>
 
     <script>
-        // Search for flights
-        function searchFlights() {
-            const query = document.getElementById('searchQuery').value;
-            fetch('http://localhost/your_project_folder/backend/search.php?query=' + query, {
+        // Handle the search functionality
+        document.getElementById('searchForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const from = document.getElementById('fromLocation').value;
+            const to = document.getElementById('toLocation').value;
+
+            fetch(`http://localhost/BackEnd/search.php?from=${from}&to=${to}`, {
                 method: 'GET'
             })
-            .then(response => response.json())
-            .then(data => {
-                const searchResults = document.getElementById('searchResults');
-                searchResults.innerHTML = '';  // Clear previous results
-                data.forEach(flight => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${flight.name} - ${flight.itinerary}`;
-                    searchResults.appendChild(listItem);
-                });
-            })
-            .catch(error => console.error('Error searching flights:', error));
-        }
+                .then(response => response.json())
+                .then(data => {
+                    const searchResults = document.getElementById('searchResults');
+                    searchResults.innerHTML = ''; // Clear previous results
+
+                    data.forEach(flight => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${flight.name} - ${flight.itinerary}`;
+                        listItem.dataset.flightId = flight.id; // Store flight ID for redirection
+
+                        // Make the flight row clickable to navigate to Flight Info
+                        listItem.addEventListener('click', () => {
+                            window.location.href = `flight_info.php?id=${flight.id}`;
+                        });
+
+                        searchResults.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching search results:', error));
+        });
     </script>
 </body>
 </html>
