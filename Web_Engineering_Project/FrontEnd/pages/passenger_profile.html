@@ -7,16 +7,22 @@
     <link rel="stylesheet" href="../css/passenger_profile.css">
 </head>
 <body>
-    <h1>Passenger Profile</h1>
+    <div class="form-container">
+        <h2>Update Profile</h2>
     <form id="profileForm">
         <input type="text" id="name" placeholder="Name" required>
         <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="tel" id="tel" placeholder="Phone Number" required>
+        <input type="file" id="photo" name="photo" required>
+        <input type="file" id="passportImg" name="passportImg" required>
         <button type="submit">Update Profile</button>
     </form>
+    </div>  
 
     <script>
         // Fetch passenger profile details
-        fetch('http://localhost/your_project_folder/backend/passenger.php', {
+        fetch('http://localhost/BackEnd/passenger.php', {
             method: 'GET'
         })
         .then(response => response.json())
