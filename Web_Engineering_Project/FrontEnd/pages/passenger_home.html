@@ -7,54 +7,72 @@
     <link rel="stylesheet" href="../css/passenger_home.css">
 </head>
 <body>
-    <h1>Welcome, Passenger!</h1>
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="photo">
+            <img src="path_to_passenger_photo" alt="Passenger Photo">
+        </div>
+        <div class="passenger-name">Welcome, [Passenger Name]</div>
+        <div class="links">
+            <a href="profile.php">Profile</a>
+            <a href="messages.php">Messages</a>
+        </div>
+    </div>
 
-    <h2>Available Flights</h2>
-    <ul id="availableFlights">
-        <!-- List of available flights will appear here -->
-    </ul>
+    <!-- Main Content -->
+    <div class="container">
 
-    <script>
-        // Fetch available flights and display them
-        function fetchAvailableFlights() {
-            fetch('http://localhost/your_project_folder/backend/flights.php', {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                const availableFlights = document.getElementById('availableFlights');
-                availableFlights.innerHTML = '';  // Clear the list before adding new items
-                data.forEach(flight => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${flight.name} - ${flight.itinerary}`;
-                    const bookButton = document.createElement('button');
-                    bookButton.textContent = 'Book Flight';
-                    bookButton.onclick = () => bookFlight(flight.id);
-                    listItem.appendChild(bookButton);
-                    availableFlights.appendChild(listItem);
-                });
-            })
-            .catch(error => console.error('Error fetching available flights:', error));
-        }
+        <!-- Passenger Details -->
+        <section>
+            <h2>Passenger Information</h2>
+            <div class="profile-info">
+                <img src="path_to_passenger_photo" alt="Profile Photo">
+                <div class="profile-details">
+                    <p><strong>Name:</strong> Passenger Name</p>
+                    <p><strong>Email:</strong> passenger@example.com</p>
+                    <p><strong>Tel:</strong> 123-456-7890</p>
+                </div>
+            </div>
+        </section>
 
-        // Book a flight
-        function bookFlight(flightId) {
-            fetch('http://localhost/your_project_folder/backend/passenger.php', {
-                method: 'POST',
-                body: new URLSearchParams({
-                    action: 'bookFlight',
-                    flightId: flightId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-            })
-            .catch(error => console.error('Error booking flight:', error));
-        }
+        <!-- Current Flights -->
+        <section>
+            <h2>Current Flights</h2>
+            <ul class="flight-list">
+                <li class="flight-item">
+                    <h3>Flight 1</h3>
+                    <p>Details about flight 1</p>
+                </li>
+                <li class="flight-item">
+                    <h3>Flight 2</h3>
+                    <p>Details about flight 2</p>
+                </li>
+            </ul>
+        </section>
 
-        // Load available flights when the page loads
-        window.onload = fetchAvailableFlights;
-    </script>
+        <!-- Completed Flights -->
+        <section>
+            <h2>Completed Flights</h2>
+            <ul class="flight-list">
+                <li class="flight-item">
+                    <h3>Flight A</h3>
+                    <p>Details about flight A</p>
+                </li>
+                <li class="flight-item">
+                    <h3>Flight B</h3>
+                    <p>Details about flight B</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Search Flights -->
+        <section>
+            <h2>Search for Flights</h2>
+            <div class="search-container">
+                <input type="text" placeholder="Enter flight details...">
+                <button>Search</button>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
