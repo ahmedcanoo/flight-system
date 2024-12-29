@@ -1,122 +1,73 @@
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
 
 body {
-    background: url("real-plane.png") center center no-repeat; /* Replace with airplane-themed image URL */
+    background: url("real-plane.png") center center no-repeat;
     background-size: cover;
     width: 100vw;
     height: 100vh;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-items: center;
     font-family: 'Fjalla One', sans-serif;
-    position: relative;
-    overflow: hidden; /* Keeps clouds within the viewport */
+    margin: 0;
+    padding: 20px;
 }
 
 h1 {
     font-size: 36px;
     color: #0F52BA; /* Sapphire Blue */
     margin-bottom: 20px;
-    text-align: center;
 }
 
-#searchQuery {
+input {
     width: 300px;
-    padding: 12px;
-    font-size: 14px;
-    background: #f8f4e5;
-    border: 2px solid rgba(137, 207, 240, 0.8); /* Transparent Baby Blue */
-    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid rgba(15, 82, 186, 0.8);
+    border-radius: 5px;
     outline: none;
-    color: #2A293E;
-    margin-bottom: 20px;
-    transition: border 0.2s;
+    margin-bottom: 15px;
+    transition: border-color 0.3s;
 }
 
-#searchQuery:focus {
-    border-color: rgba(135, 206, 235, 0.8); /* Sky Blue on focus */
+input:focus {
+    border-color: rgba(15, 82, 186, 1);
 }
 
 button {
-    padding: 12px 20px;
-    background: #0F52BA; /* Sapphire Blue */
-    color: white;
+    background-color: #0F52BA; /* Sapphire Blue */
+    color: #ffffff;
+    padding: 10px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 14px;
-    letter-spacing: 2px;
-    transition: background-color 0.2s, border-color 0.2s;
-    box-shadow: 3px 3px 1px 1px rgba(137, 207, 240, 0.5), 
-                3px 3px 1px 2px rgba(0, 0, 0, 0.15); /* Softer Baby Blue shadow */
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
-    background: rgba(42, 41, 62, 0.8); /* Dark Blue for hover effect */
-    border: 1px solid rgba(15, 82, 186, 0.8); /* Sapphire Blue border */
+    background-color: rgba(42, 41, 62, 0.8); /* Darker blue */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #searchResults {
+    margin-top: 20px;
+    width: 300px;
     list-style-type: none;
     padding: 0;
-    margin-top: 30px;
-    text-align: center;
 }
 
 #searchResults li {
-    background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    background: rgba(255, 255, 255, 0.8); /* White background */
+    margin-bottom: 10px;
     padding: 10px;
-    margin: 8px 0;
-    border-radius: 8px;
-    color: #2A293E;
     font-size: 16px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-}
-
-#searchResults li:hover {
-    background: rgba(137, 207, 240, 0.5); /* Light blue on hover */
+    border: 1px solid rgba(15, 82, 186, 0.5);
+    border-radius: 5px;
+    transition: background 0.3s;
     cursor: pointer;
 }
 
-/* Cloud Decorations */
-.cloud {
-    position: absolute;
-    background: #ffffff;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    opacity: 0.8;
-    animation: move-clouds 20s linear infinite;
-}
-
-.cloud-1 {
-    width: 120px;
-    height: 60px;
-    top: 10%;
-    left: -20%;
-    animation-duration: 30s;
-}
-
-.cloud-2 {
-    width: 150px;
-    height: 80px;
-    top: 30%;
-    left: 50%;
-    animation-duration: 40s;
-}
-
-.cloud-3 {
-    width: 100px;
-    height: 50px;
-    top: 50%;
-    left: 80%;
-    animation-duration: 35s;
-}
-
-@keyframes move-clouds {
-    from {
-        transform: translateX(-200%);
-    }
-    to {
-        transform: translateX(100%);
-    }
+#searchResults li:hover {
+    background: rgba(15, 82, 186, 0.1); /* Light blue hover effect */
 }
