@@ -3,10 +3,9 @@
 <head>
     <title>Company Registration</title>
     <link rel="stylesheet" href="../css/company_register.css">
-    <script src="../js/company_register.js" defer></script>
 </head>
 <body>
-    <div id="header"></div>
+    <!-- <div id="header"></div> -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // Fetch header template
@@ -19,6 +18,7 @@
             document.getElementById("user_id").value = localStorage.getItem("user_id") || '';
         });
     </script>
+   <!-- </div> -->
 <div class="form-container">
     <h1>Company Additional Information</h1>
     <form id="companyForm" method="POST" enctype="multipart/form-data">
@@ -61,7 +61,7 @@
                 const result = await response.json();
                 if (result.status === "success") {
                     alert(result.message);
-                    window.location.href = "company_home.html"; // Redirect on successful submission
+                    window.location.href = "../../BackEnd/company_home.php"; // Redirect on successful submission
                 } else {
                     alert(result.message);
                 }
